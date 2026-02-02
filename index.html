@@ -1,0 +1,206 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DASHZU 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(180deg,#ffd6e8,#ffeef5);
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  position: absolute;
+  inset: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.active { display: flex; }
+
+.box {
+  background: #ffb6d5;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 85%;
+  max-width: 350px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+
+h1 {
+  margin: 0 0 10px;
+  color: #b3005e;
+}
+
+p {
+  color: #7a003c;
+  font-size: 18px;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+button {
+  background: white;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.hidden {
+  font-size: 12px;
+  opacity: 0.35;
+  margin-top: 25px;
+  cursor: pointer;
+}
+
+.float {
+  position: absolute;
+  bottom: -50px;
+  font-size: 24px;
+  animation: rise 8s linear infinite;
+}
+
+@keyframes rise {
+  to { transform: translateY(-120vh); opacity: 0; }
+}
+
+input[type=range] {
+  width: 100%;
+}
+
+.big {
+  font-size: 26px;
+  color: #b3005e;
+}
+</style>
+</head>
+
+<body>
+<audio id="bgMusic" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+<div style="margin-top:15px;">
+  <button onclick="playMusic()">▶ Play Music</button>
+  <button onclick="pauseMusic()">⏸ Pause</button>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="slide active">
+  <div class="box">
+    <h1>DASHZU, my love…</h1>
+    <p>Do you like me?</p>
+
+    <div class="btns">
+      <button onclick="move(this)">Yes</button>
+      <button onclick="move(this)">No</button>
+    </div>
+
+    <div class="hidden" onclick="nextSlide()">
+      I don't like you, I love you ❤️
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide">
+  <div class="box">
+    <h1>DASHZU, my love…</h1>
+    <p>How much do you love me?</p>
+
+    <input type="range" min="0" max="6591" value="0" oninput="updateLove(this.value)">
+    <p id="percent">This much! (0%)</p>
+    <p id="react"></p>
+
+    <button id="nextBtn" style="display:none" onclick="nextSlide()">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide">
+  <div class="box">
+    <h1>Hey you…</h1>
+    <p>Will you be my Valentine<br>on Feb 14, 2026? 🫣</p>
+
+    <div class="btns">
+      <button onclick="move(this)">Yes</button>
+      <button onclick="move(this)">No</button>
+    </div>
+
+    <div class="hidden" onclick="nextSlide()">
+      Absolutely, I would love to 💖
+    </div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div class="slide">
+  <div class="box">
+    <h1 class="big">YEAHHH!!! 💖💖💖</h1>
+    <p>I am the luckiest person in the world ❤️</p>
+  </div>
+</div>
+
+<script>
+function playMusic() {
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.4;
+  music.play();
+}
+
+function pauseMusic() {
+  const music = document.getElementById("bgMusic");
+  music.pause();
+}
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+
+function nextSlide(){
+  slides[current].classList.remove('active');
+  current++;
+  slides[current].classList.add('active');
+}
+
+function move(btn){
+  btn.style.position = "absolute";
+  btn.style.left = Math.random()*70 + "%";
+  btn.style.top = Math.random()*70 + "%";
+}
+
+function updateLove(val){
+  document.getElementById("percent").innerText =
+    "This much! (" + val + "%)";
+  document.getElementById("react").innerText =
+    val > 4000 ? "WOW 😳🚀" : val > 2000 ? "That's a lot 💕" : "";
+
+  if(val == 6591){
+    document.getElementById("nextBtn").style.display = "block";
+  }
+}
+
+// floating emojis
+const emojis = ["❤️","💗","💓","🍻","🧸","🚀"];
+setInterval(()=>{
+  const e = document.createElement("div");
+  e.className = "float";
+  e.style.left = Math.random()*100+"%";
+  e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),8000);
+},700);
+</script>
+
+</body>
+</html>
